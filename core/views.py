@@ -13,7 +13,7 @@ from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
 
 from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
-from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile
+from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile, Carousel
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -35,6 +35,26 @@ def is_valid_form(values):
         if field == '':
             valid = False
     return valid
+
+
+class HomeView(ListView):
+    model = Item
+    paginate_by = 10
+    template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['carousel'] = Carousel.objects.all()
+        context['item'] = Item.objects.all()
+        # And so on for more models
+        return context
+
+
+# def home(request):
+#     carousel = Carousel.objects.all()
+#     item = Item.objects.all()
+#     context = {'carousel': carousel, 'item': item}
+#     return render(request, "home.html", context)
 
 
 class CheckoutView(View):
@@ -343,12 +363,6 @@ class PaymentView(View):
 
     #     messages.warning(self.request, "Invalid data received")
     #     return redirect("/payment/stripe/")
-
-
-class HomeView(ListView):
-    model = Item
-    paginate_by = 10
-    template_name = "home.html"
 
 
 class OrderSummaryView(LoginRequiredMixin, View):

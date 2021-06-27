@@ -24,6 +24,17 @@ ADDRESS_CHOICES = (
 )
 
 
+class Carousel(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField()
+    description = models.TextField()
+    button = models.CharField(max_length=50)
+    url = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
