@@ -7,9 +7,18 @@ from django_countries.fields import CountryField
 
 
 CATEGORY_CHOICES = (
-    ('S', 'Shirt'),
-    ('SW', 'Sport wear'),
-    ('OW', 'Outwear')
+    ('TS', 'Цэвэрлэгч'),
+    ('TO', 'Тонер'),
+    ('NT', 'Нарны тос'),
+    ('HE', 'Хөгшрөлтийн эсрэг'),
+    ('GU', 'Гуужуулагч'),
+    ('ES', 'Эссэнц'),
+    ('SE', 'Серум'),
+    ('UA', 'Үс арчилгаа'),
+    ('BA', 'Бие арчилгаа'),
+    ('MA', 'Маск'),
+    ('NB', 'Нүүрний будаг'),
+    ('ZT', 'Зовхины тос'),
 )
 
 LABEL_CHOICES = (
@@ -55,6 +64,7 @@ class Item(models.Model):
     description = models.TextField()
     image = models.ImageField()
     sold_out = models.BooleanField(default=False)
+    special = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

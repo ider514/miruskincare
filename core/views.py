@@ -46,6 +46,7 @@ class HomeView(ListView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['carousel'] = Carousel.objects.all()
         context['item'] = Item.objects.all()
+        context['special'] = Item.objects.all().filter(special=True)
         # And so on for more models
         return context
 

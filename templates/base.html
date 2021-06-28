@@ -23,7 +23,64 @@
       height: 60vh;
       background-color: white;
       background-position: center;
-      background-size: 100% 100%;
+      background-size: contain;
+    }
+
+    .carousel-item {
+      background-position: center;
+      background-size: cover;
+    }
+
+    .card-img-top {
+      height: auto;
+      width: auto;
+      max-width: 200px;
+      max-height: 300px;
+      vertical-align: middle;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card {
+      height: 300px;
+      width: 100%;
+    }
+
+    #basicExampleNav {
+      color: blueviolet;
+    }
+
+    /* .scrolling-wrapper {
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
+    } */
+    .scrolling-wrapper {
+      margin: 4px, 4px;
+      padding: 4px 4px 10px 4px;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+    }
+
+    .scrolling-wrapper card {
+      display: inline-block;
+    }
+
+    .card1 {
+      position: relative;
+      display: -ms-flexbox;
+      display: inline-block;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+      border-radius: 0.25rem;
+      margin: 10px;
     }
 
     @media (max-width: 740px) {
