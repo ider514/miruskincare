@@ -2,10 +2,11 @@
 {% load humanize %}
 {% block content %}
 <main>
-  <div class="container">
+  <div class="container" style="min-width: 100%; padding: 0;">
 
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5" style="background: blue!important;">
+    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5"
+      style="background: #080705!important; margin: 0%!important;">
 
       <!-- Navbar brand -->
       <!-- <span class="navbar-brand">Ангилал:</span> -->
@@ -17,7 +18,7 @@
       </button>
 
       <!-- Collapsible content -->
-      <div class="collapse navbar-collapse" id="basicExampleNav">
+      <div class="collapse navbar-collapse" id="basicExampleNav" style="margin-bottom: 0;">
 
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
@@ -52,7 +53,8 @@
 
     <!--/.Carousel-->
 
-    <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" style="margin-bottom:20px">
+    <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
+      style="margin-bottom:20px; margin-top: 0;">
       <!-- <div class="carousel-indicators">
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
           aria-label="Slide 1"></button>
@@ -68,7 +70,9 @@
             <div class="carousel-caption text-start">
               <h1>{{ carousel.title }}</h1>
               <p>{{ carousel.description }}</p>
-              <p><a class="btn btn-lg btn-primary" href="#">{{ carousel.button }}</a></p>
+              <p><a class="btn btn-lg btn-primary" style="background-color: #080705!important;" href="#">
+                  {{ carousel.button }}</a>
+              </p>
             </div>
           </div>
 
@@ -112,7 +116,7 @@
             </strong>
           </h5>
 
-          <h4 class="font-weight-bold blue-text">
+          <h4 class="font-weight-bold black-text">
             <strong>₮
               {% if item.discount_price %}
               {{ item.discount_price|floatformat:0|intcomma }}
@@ -128,7 +132,9 @@
       {% endfor %}
     </div>
     <!--/.Horizontal scroll-->
-
+    <h2
+      style="align-content: center; position:relative; width: 100%; margin: auto; text-align: center; padding-bottom: 10px;">
+      Ангилал </h2>
     <!--Section: Products v.3-->
     <section class="text-center mb-4">
 
@@ -158,7 +164,7 @@
                 </strong>
               </h5>
 
-              <h4 class="font-weight-bold blue-text">
+              <h4 class="font-weight-bold black-text">
                 <strong>₮
                   {% if item.discount_price %}
                   {{ item.discount_price|floatformat:0|intcomma }}
