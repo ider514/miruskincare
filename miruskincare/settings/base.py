@@ -24,7 +24,9 @@ INSTALLED_APPS = [
     'django_countries',
 
     'django.contrib.humanize',
-    'core'
+    'core',
+
+    'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,39 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'first_name',
+            'last_name',
+            'middle_name',
+            'name',
+            'name_format',
+            'picture',
+            'short_name'
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v11.0',
+    }
+}
+
+# facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '484254002670133'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '90d96638a12360c6e3d74fe44e5082cc'  # app key
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQURIED = True
+
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
