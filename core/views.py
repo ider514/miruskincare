@@ -79,7 +79,7 @@ class CheckoutView(View):
 
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
-            messages.info(self.request, "You do not have an active order")
+            messages.info(self.request, "Танд идэвхтэй захиалга байхгүй байна")
             return redirect("core:checkout")
 
     def post(self, *args, **kwargs):
@@ -135,7 +135,7 @@ class CheckoutView(View):
 
                 else:
                     messages.info(
-                        self.request, "Хаягаа бүтэн оруулна уу.")
+                        self.request, "Хаяг дугаараа гүйцэд зөв оруулна уу")
 
                 return redirect('core:payment')
                 # use_default_billing = form.cleaned_data.get(
@@ -213,40 +213,46 @@ class CheckoutView(View):
                 #     return redirect('core:checkout')
             else:
                 messages.warning(
-                    self.request, "Хаягаа бүтэн оруулна уу.")
+                    self.request, "Хаяг дугаараа гүйцэд зөв оруулна уу")
                 return redirect('core:checkout')
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
+            messages.warning(
+                self.request, "Танд идэвхтэй захиалга байхгүй байна")
             return redirect("core:order-summary")
 
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
-        order = Order.objects.latest('start_date')
-        # user=self.request.user)
-        # if order.billing_address:
-        order_item = OrderItem.objects.get(
-            user=self.request.user, ordered=False)
-        context = {
-            'order': order,
-            'DISPLAY_COUPON_FORM': False,
-            'order_item': order_item,
-        }
-        #     userprofile = self.request.user.userprofile
-        #     if userprofile.one_click_purchasing:
-        #         # fetch the users card list
-        #         cards = stripe.Customer.list_sources(
-        #             userprofile.stripe_customer_id,
-        #             limit=3,
-        #             object='card'
-        #         )
-        #         card_list = cards['data']
-        #         if len(card_list) > 0:
-        #             # update the context with the default card
-        #             context.update({
-        #                 'card': card_list[0]
-        #             })
-        return render(self.request, "payment.html", context)
+        try:
+            Order.objects.latest('start_date')
+            order = Order.objects.latest('start_date')
+            # user=self.request.user)
+            # if order.billing_address:
+            order_item = OrderItem.objects.get(
+                user=self.request.user, ordered=False)
+            context = {
+                'order': order,
+                'DISPLAY_COUPON_FORM': False,
+                'order_item': order_item,
+            }
+            #     userprofile = self.request.user.userprofile
+            #     if userprofile.one_click_purchasing:
+            #         # fetch the users card list
+            #         cards = stripe.Customer.list_sources(
+            #             userprofile.stripe_customer_id,
+            #             limit=3,
+            #             object='card'
+            #         )
+            #         card_list = cards['data']
+            #         if len(card_list) > 0:
+            #             # update the context with the default card
+            #             context.update({
+            #                 'card': card_list[0]
+            #             })
+            return render(self.request, "payment.html", context)
+        except ObjectDoesNotExist:
+            messages.info(self.request, "Танд захиалга байхгүй байна.")
+            return redirect("core:home")
     #     else:
     #         messages.warning(
     #             self.request, "You have not added a billing address")
@@ -371,7 +377,8 @@ class OrderSummaryView(LoginRequiredMixin, View):
             }
             return render(self.request, 'order_summary.html', context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
+            messages.warning(
+                self.request, "Танд идэвхтэй захиалга байхгүй байна")
             return redirect("/")
 
 
@@ -395,18 +402,18 @@ def add_to_cart(request, slug):
         if order.items.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
-            messages.info(request, "This item quantity was updated.")
+            messages.info(request, "Энэ барааны тоо хэмжээг шинэчилсэн.")
             return redirect("core:order-summary")
         else:
             order.items.add(order_item)
-            messages.info(request, "This item was added to your cart.")
+            messages.info(request, "Энэ барааг таны сагсанд оруулсан.")
             return redirect("core:order-summary")
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(
             user=request.user, ordered_date=ordered_date)
         order.items.add(order_item)
-        messages.info(request, "This item was added to your cart.")
+        messages.info(request, "Энэ барааг таны сагсанд оруулсан.")
         return redirect("core:order-summary")
 
 
@@ -428,13 +435,13 @@ def remove_from_cart(request, slug):
             )[0]
             order.items.remove(order_item)
             order_item.delete()
-            messages.info(request, "This item was removed from your cart.")
+            messages.info(request, "Энэ барааг таны сагснаас хассан.")
             return redirect("core:order-summary")
         else:
-            messages.info(request, "This item was not in your cart")
+            messages.info(request, "Энэ бараа таны сагсанд байгаагүй")
             return redirect("core:product", slug=slug)
     else:
-        messages.info(request, "You do not have an active order")
+        messages.info(request, "Танд идэвхтэй захиалга байхгүй байна")
         return redirect("core:product", slug=slug)
 
 
@@ -459,13 +466,13 @@ def remove_single_item_from_cart(request, slug):
                 order_item.save()
             else:
                 order.items.remove(order_item)
-            messages.info(request, "This item quantity was updated.")
+            messages.info(request, "Энэ барааны тоо хэмжээг шинэчилсэн.")
             return redirect("core:order-summary")
         else:
-            messages.info(request, "This item was not in your cart")
+            messages.info(request, "Энэ бараа таны сагсанд байгаагүй")
             return redirect("core:product", slug=slug)
     else:
-        messages.info(request, "You do not have an active order")
+        messages.info(request, "Танд идэвхтэй захиалга байхгүй байна")
         return redirect("core:product", slug=slug)
 
 
@@ -474,7 +481,7 @@ def get_coupon(request, code):
         coupon = Coupon.objects.get(code=code)
         return coupon
     except ObjectDoesNotExist:
-        messages.info(request, "This coupon does not exist")
+        messages.info(request, "Идэвхтэй купон сонгоно уу")
         return redirect("core:checkout")
 
 
@@ -488,10 +495,11 @@ class AddCouponView(View):
                     user=self.request.user, ordered=False)
                 order.coupon = get_coupon(self.request, code)
                 order.save()
-                messages.success(self.request, "Successfully added coupon")
+                messages.success(self.request, "Купон амжилттай  нэмэгдлээ")
                 return redirect("core:checkout")
             except ObjectDoesNotExist:
-                messages.info(self.request, "You do not have an active order")
+                messages.info(
+                    self.request, "Танд идэвхтэй захиалга байхгүй байна")
                 return redirect("core:checkout")
 
 
@@ -522,9 +530,9 @@ class RequestRefundView(View):
                 refund.email = email
                 refund.save()
 
-                messages.info(self.request, "Your request was received.")
+                messages.info(self.request, "Хүсэлтийг хүлээн авлаа.")
                 return redirect("core:request-refund")
 
             except ObjectDoesNotExist:
-                messages.info(self.request, "This order does not exist.")
+                messages.info(self.request, "Энэ бараа байхгүй байна.")
                 return redirect("core:request-refund")
