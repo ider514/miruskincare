@@ -80,6 +80,8 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
@@ -99,7 +101,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'short_name'
         ],
         'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': 'path.to.callable',
+        'LOCALE_FUNC': lambda request: 'en_US',
         'VERIFIED_EMAIL': False,
         'VERSION': 'v11.0',
     }
