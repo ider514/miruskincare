@@ -10,6 +10,8 @@ from .views import (
     PaymentView,
     AddCouponView,
     RequestRefundView,
+    SaleView,
+    NewView,
     # home,
 )
 
@@ -19,6 +21,8 @@ app_name = 'core'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('sale/', SaleView.as_view(), name='sale'),
+    path('new/', NewView.as_view(), name='new'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),

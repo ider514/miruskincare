@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import NON_FIELD_ERRORS, ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -48,6 +48,34 @@ class HomeView(ListView):
         context['item'] = Item.objects.all()
         context['special'] = Item.objects.all().filter(special=True)
         # And so on for more models
+        return context
+
+
+class SaleView(ListView):
+    model = Item
+    paginate_by = 10
+    template_name = "sale.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(SaleView, self).get_context_data(**kwargs)
+        sale_items = list(Item.objects.all())
+
+        sale_items[:] = [x for x in sale_items if x.discount_price is not None]
+        context['item'] = sale_items
+        return context
+
+
+class NewView(ListView):
+    model = Item
+    paginate_by = 10
+    template_name = "new.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(NewView, self).get_context_data(**kwargs)
+        sale_items = list(Item.objects.all())
+
+        # sale_items[:] = [x for x in sale_items if x.discount_price is not None]
+        context['item'] = sale_items
         return context
 
 
