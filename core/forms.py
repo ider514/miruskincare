@@ -10,20 +10,46 @@ PAYMENT_CHOICES = (
 
 DISTRICTS = [
     # ('selected="true" disabled="disabled"', 'Дүүрэг'),
-    ('sbd', 'Sukhbaatar'),
-    ('bng', 'Bayngol'),
-    ('khu', 'Khanuul'),
-    ('skh', 'Songinkhairkhan'),
+    ('Багануур', 'Багануур'),
+    ('Багахангай', 'Багахангай'),
+    ('Баянгол', 'Баянгол'),
+    ('Баянзүрх', 'Баянзүрх'),
+    ('Налайх', 'Налайх'),
+    ('Сонгинохайрхан', 'Сонгинохайрхан'),
+    ('Сүхбаатар', 'Сүхбаатар'),
+    ('Хан-Уул', 'Хан-Уул'),
+    ('Чингэлтэй', 'Чингэлтэй'),
+]
+
+DELIVERY = [
+    ('a', 'A бүс'),
+    ('b', 'Б бүс'),
 ]
 
 
 class CheckoutForm(forms.Form):
-    district = forms.MultipleChoiceField(
+    duureg = forms.MultipleChoiceField(
         required=True,
         choices=DISTRICTS,
     )
-    address = forms.CharField(
-        required=True, initial='Хороо, хороолол, гудамжны нэр ...')
+    khoroo_khotkhon = forms.CharField(
+        max_length=100, required=True, initial='1-р xороо / Жаргалан хотхон')
+    bair = forms.CharField(max_length=100, required=True,
+                           initial='5-р байр')
+    orts = forms.CharField(max_length=100, required=True,
+                           initial='2-р орц')
+    davhar = forms.CharField(
+        max_length=100, required=True, initial='5 давхар')
+    toot = forms.CharField(max_length=100, required=True,
+                           initial='75 тоот')
+    code = forms.CharField(max_length=100, required=False,
+                           initial='#1234*')
+    nemelt = forms.CharField(
+        max_length=150, initial='Нэмэлт мэдээлэл', required=False)
+    delivery = forms.ChoiceField(
+        widget=forms.RadioSelect(), choices=DELIVERY, required=True)
+    contact = forms.CharField(max_length=8, required=True,
+                              initial=' ')
 
 
 class CouponForm(forms.Form):

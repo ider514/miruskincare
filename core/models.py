@@ -115,6 +115,7 @@ class Order(models.Model):
                              on_delete=models.CASCADE)
     ref_code = models.CharField(max_length=20, blank=True, null=True)
     items = models.ManyToManyField(OrderItem)
+    delivery_fee = models.CharField(max_length=5, blank=True, null=True)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
@@ -155,8 +156,14 @@ class Order(models.Model):
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    district = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
+    duureg = models.CharField(max_length=100)
+    khoroo_khotkhon = models.CharField(max_length=100)
+    bair = models.CharField(max_length=100)
+    orts = models.CharField(max_length=100)
+    davhar = models.CharField(max_length=100)
+    toot = models.CharField(max_length=100)
+    code = models.CharField(max_length=100)
+    nemelt = models.CharField(max_length=150)
 
     def __str__(self):
         return self.user.username

@@ -16,10 +16,12 @@ class OrderAdmin(admin.ModelAdmin):
                     'payment_received',
                     'being_delivered',
                     'received',
-                    'refund_requested',
-                    'refund_granted',
+                    # 'refund_requested',
+                    # 'refund_granted',
                     'shipping_address',
-                    'coupon'
+                    'coupon',
+                    'delivery_fee',
+                    'get_total'
                     ]
     list_display_links = [
         'user',
@@ -31,23 +33,30 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['ordered',
                    'being_delivered',
                    'received',
-                   'refund_requested',
-                   'refund_granted']
+                   #    'refund_requested',
+                   #    'refund_granted'
+                   ]
     search_fields = [
         'user__username',
         'ref_code'
     ]
-    actions = [make_refund_accepted]
+    # actions = [make_refund_accepted]
 
 
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
         'user',
-        'district',
-        'address',
+        'duureg',
+        'khoroo_khotkhon',
+        'bair',
+        'orts',
+        'davhar',
+        'toot',
+        'code',
+        'nemelt',
     ]
     # list_filter = ['default', 'address_type', 'country']
-    search_fields = ['user', 'district', 'address']
+    search_fields = ['user', 'duureg', 'khoroo_khotkhon']
 
 
 admin.site.register(Item)

@@ -135,31 +135,52 @@ class CheckoutView(View):
                 #         return redirect('core:checkout')
                 # else:
                 print("User is entering a new shipping address")
-                district = form.cleaned_data.get(
-                    'district')
-                address = form.cleaned_data.get(
-                    'address')
+                duureg = form.cleaned_data.get(
+                    'duureg')
+                khoroo_khotkhon = form.cleaned_data.get(
+                    'khoroo_khotkhon')
+                bair = form.cleaned_data.get(
+                    'bair')
+                orts = form.cleaned_data.get(
+                    'orts')
+                davhar = form.cleaned_data.get(
+                    'davhar')
+                toot = form.cleaned_data.get(
+                    'toot')
+                code = form.cleaned_data.get(
+                    'code')
+                nemelt = form.cleaned_data.get(
+                    'nemelt')
                 contact = form.cleaned_data.get(
                     'contact')
-                if is_valid_form([district, address, contact]):
+                delivery = form.cleaned_data.get(
+                    'delivery')
+                print(delivery)
+                print(contact)
+                if is_valid_form([duureg, khoroo_khotkhon, bair, orts, davhar, toot, contact]):
                     shipping_address = Address(
                         user=self.request.user,
-                        district=district,
-                        address=address,
+                        duureg=duureg,
+                        khoroo_khotkhon=khoroo_khotkhon,
+                        bair=bair,
+                        orts=orts,
+                        davhar=davhar,
+                        toot=toot,
+                        code=code,
+                        nemelt=nemelt,
                     )
                     shipping_address.save()
 
                     order.shipping_address = shipping_address
-                    order.save()
-
-                    set_default_shipping = form.cleaned_data.get(
-                        'set_default_shipping')
-                    if set_default_shipping:
-                        shipping_address.default = True
-                        shipping_address.save()
-
+                    order.contact = contact
+                    order.delivery_fee = delivery
                     order.ordered = True
                     order.save()
+                    # set_default_shipping = form.cleaned_data.get(
+                    #     'set_default_shipping')
+                    # if set_default_shipping:
+                    #     shipping_address.default = True
+                    #     shipping_address.save()
 
                 else:
                     messages.info(
