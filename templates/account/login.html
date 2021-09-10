@@ -1,0 +1,56 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<main>
+  <div class="container">
+    <section class="mb-4">
+      <div class="row wow fadeIn">
+        <div class='col-6 offset-3'>
+          <h1>Нэвтрэх</h1>
+
+          {% get_providers as socialaccount_providers %}
+
+          {% if socialaccount_providers %}
+
+          <div class="socialaccount_ballot">
+
+            <ul class="socialaccount_providers">
+              {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            </ul>
+
+            <div class="login-or">эсвэл</div>
+
+          </div>
+
+          {% include "socialaccount/snippets/login_extra.html" %}
+
+          {% else %}
+          <p>{% blocktrans %}If you have not created an account yet, then please
+            <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
+          </p>
+          {% endif %}
+
+          <form class="login" method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <!-- <input type="input" class="form-control" name="ner" id="inputEmail" placeholder="ner" required>
+            <input type="password" class="form-control" name="password" id="inputPass" placeholder="Password" required> -->
+            <a class="btn btn-default" href="{% url 'account_reset_password' %}">Нууц үг мартсан?</a>
+            <button class="btn btn-primary" type="submit">Нэвтрэх</button>
+            <p>Шинээр <a href="{{ signup_url }}">буртгүүлэх</a>.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+{% endblock %}
