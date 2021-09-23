@@ -9,7 +9,7 @@
             Хямдралтай </h2>
         <!--Section: Products v.3-->
         <section class="text-center mb-4">
-
+            {% if item %}
             <div class="row wow fadeIn">
 
                 {% for item in item %}
@@ -53,7 +53,11 @@
                 </div>
                 {% endfor %}
             </div>
-
+            {% else %}
+            <h3
+                style="align-content: center; position:relative; width: 100%; margin: auto; text-align: center; padding-bottom: 10px; padding-top: 20px;">
+                Одоогоор хямдарсан бүтээгдэхүүн байхгүй байна. Дараа дахин шалгаарай. </h3>
+            {% endif %}
         </section>
         <!--Section: Products v.3-->
 
