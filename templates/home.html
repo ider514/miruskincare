@@ -76,9 +76,11 @@
             <div class="carousel-caption text-start">
               <h1>{{ carousel.title }}</h1>
               <p>{{ carousel.description }}</p>
+              {% if carousel.button != "" %}
               <p><a class="btn btn-lg btn-primary" style="background-color: #080705!important;" href="#">
                   {{ carousel.button }}</a>
               </p>
+              {% endif %}
             </div>
           </div>
 
