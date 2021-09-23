@@ -1,5 +1,7 @@
 from .base import *
 
+ROOT_URLCONF = 'miruskincare.urls'
+
 DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 
