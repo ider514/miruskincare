@@ -16,11 +16,8 @@ AUTH_PASSWORD_VALIDATORS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        << << << < HEAD
         'NAME': 'db_name',
-        == == == =
-        'NAME': '/opt/bitnami/projects/miruskincare/db_name',
-        >>>>>> > d7ad845edb6f0f7da9745f36cebb823e32328d28
+        # 'NAME': '/opt/bitnami/projects/miruskincare/db_name',
         'USER': 'db_user',
         'PASSWORD': '123',
         'HOST': '',
