@@ -36,9 +36,9 @@ ADDRESS_CHOICES = (
 class Carousel(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField()
-    description = models.TextField()
-    button = models.CharField(max_length=50)
-    url = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    button = models.CharField(max_length=50, blank=True)
+    url = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.title
