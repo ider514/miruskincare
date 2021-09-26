@@ -120,3 +120,16 @@ LOGIN_REDIRECT_URL = '/'
 # CRISPY FORMS
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+ACCOUNT_FORMS = {
+    "login": "allauth.account.forms.LoginForm",
+    "add_email": "allauth.account.forms.AddEmailForm",
+    "change_password": "allauth.account.forms.ChangePasswordForm",
+    "set_password": "allauth.account.forms.SetPasswordForm",
+    "reset_password": "allauth.account.forms.ResetPasswordForm",
+    "reset_password_from_key": "allauth.account.forms.ResetPasswordKeyForm",
+    "disconnect": "allauth.socialaccount.forms.DisconnectForm",
+    # Use our custom signup form
+    "signup": "core.forms.MiruskincareSignupForm",
+    "login": "core.forms.MiruskincareLoginForm",
+}

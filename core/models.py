@@ -27,11 +27,6 @@ LABEL_CHOICES = (
     ('D', 'danger')
 )
 
-ADDRESS_CHOICES = (
-    ('B', 'Billing'),
-    ('S', 'Shipping'),
-)
-
 
 class Carousel(models.Model):
     title = models.CharField(max_length=100)

@@ -1,6 +1,13 @@
-from django import forms
-from django_countries.fields import CountryField
-from django_countries.widgets import CountrySelectWidget
+from django import forms as d_forms
+# from django_countries.fields import CountryField
+# from django_countries.widgets import CountrySelectWidget
+from allauth.account.forms import LoginForm, SignupForm
+
+from django.utils.translation import gettext as _
+
+from allauth.account.forms import set_form_field_order, app_settings, PasswordField
+
+# from django import app_settings
 
 
 PAYMENT_CHOICES = (
@@ -26,34 +33,80 @@ DELIVERY = [
     ('b', 'Б бүс'),
 ]
 
+# SpyBookSignupForm inherits from django-allauth's SignupForm
 
-class CheckoutForm(forms.Form):
-    duureg = forms.MultipleChoiceField(
+
+class MiruskincareLoginForm(LoginForm):
+    def __init__(self, *args, **kwargs):
+        # Call the init of the parent class
+        super().__init__(*args, **kwargs)
+        login_widget = d_forms.TextInput(
+            attrs={"placeholder": _("Утасны дугаар"),
+                   "autocomplete": "Утасны дугаар"}
+        )
+        login_field = d_forms.CharField(
+            label=_("Утасны дугаар"),
+            widget=login_widget,
+            max_length=8,
+        )
+        self.fields["login"] = login_field
+
+        # password = PasswordField(
+        #     label=_("Нууц үг"), autocomplete="current-password")
+        # remember = d_forms.BooleanField(label=_("Remember Me"), required=False)
+
+        set_form_field_order(self, ["login", "password", "remember"])
+        if app_settings.SESSION_REMEMBER is not None:
+            del self.fields["remember"]
+
+
+class MiruskincareSignupForm(SignupForm):
+
+    # Specify a choice field that matches the choice field on our user model
+    # type = d_forms.ChoiceField(choices=[("SPY", "Spy"), ("DRIVER", "Driver")])
+
+    # Override the init method
+    def __init__(self, *args, **kwargs):
+        # Call the init of the parent class
+        super().__init__(*args, **kwargs)
+        # Remove autofocus because it is in the wrong place
+        # del self.fields["username"].widget.attrs["autofocus"]
+
+    # Put in custom signup logic
+    # def custom_signup(self, request, user):
+    #     # Set the user's type from the form reponse
+    #     user.type = self.cleaned_data["type"]
+    #     # Save the user's type to their database record
+    #     user.save()
+
+
+class CheckoutForm(d_forms.Form):
+    duureg = d_forms.MultipleChoiceField(
         required=True,
         choices=DISTRICTS,
     )
-    khoroo_khotkhon = forms.CharField(
+    khoroo_khotkhon = d_forms.CharField(
         max_length=100, required=True, initial='1-р xороо / Жаргалан хотхон')
-    bair = forms.CharField(max_length=100, required=True,
-                           initial='5-р байр')
-    orts = forms.CharField(max_length=100, required=True,
-                           initial='2-р орц')
-    davhar = forms.CharField(
+    bair = d_forms.CharField(max_length=100, required=True,
+                             initial='5-р байр')
+    orts = d_forms.CharField(max_length=100, required=True,
+                             initial='2-р орц')
+    davhar = d_forms.CharField(
         max_length=100, required=True, initial='5 давхар')
-    toot = forms.CharField(max_length=100, required=True,
-                           initial='75 тоот')
-    code = forms.CharField(max_length=100, required=False,
-                           initial='#1234*')
-    nemelt = forms.CharField(
+    toot = d_forms.CharField(max_length=100, required=True,
+                             initial='75 тоот')
+    code = d_forms.CharField(max_length=100, required=False,
+                             initial='#1234*')
+    nemelt = d_forms.CharField(
         max_length=150, initial='Нэмэлт мэдээлэл', required=False)
-    delivery = forms.ChoiceField(
-        widget=forms.RadioSelect(), choices=DELIVERY, required=True)
-    contact = forms.CharField(max_length=8, required=True,
-                              initial=' ')
+    delivery = d_forms.ChoiceField(
+        widget=d_forms.RadioSelect(), choices=DELIVERY, required=True)
+    contact = d_forms.CharField(max_length=8, required=True,
+                                initial=' ')
 
 
-class CouponForm(forms.Form):
-    code = forms.CharField(widget=forms.TextInput(attrs={
+class CouponForm(d_forms.Form):
+    code = d_forms.CharField(widget=d_forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Promo code',
         'aria-label': 'Recipient\'s username',
@@ -61,15 +114,15 @@ class CouponForm(forms.Form):
     }))
 
 
-class RefundForm(forms.Form):
-    ref_code = forms.CharField()
-    message = forms.CharField(widget=forms.Textarea(attrs={
+class RefundForm(d_forms.Form):
+    ref_code = d_forms.CharField()
+    message = d_forms.CharField(widget=d_forms.Textarea(attrs={
         'rows': 4
     }))
-    email = forms.EmailField()
+    email = d_forms.EmailField()
 
 
-class PaymentForm(forms.Form):
-    stripeToken = forms.CharField(required=False)
-    save = forms.BooleanField(required=False)
-    use_default = forms.BooleanField(required=False)
+class PaymentForm(d_forms.Form):
+    stripeToken = d_forms.CharField(required=False)
+    save = d_forms.BooleanField(required=False)
+    use_default = d_forms.BooleanField(required=False)
