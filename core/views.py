@@ -1,5 +1,6 @@
 import random
 import string
+import uuid
 
 # import stripe
 from django.conf import settings
@@ -155,8 +156,11 @@ class CheckoutView(View):
                     'contact')
                 delivery = form.cleaned_data.get(
                     'delivery')
-                print(delivery)
-                print(contact)
+                address_detail = ''
+                address_detail = duureg[0] + ' дүүрэг, ' + \
+                    khoroo_khotkhon + ' Хороо / Хотхон, ' + bair + ' Байр, ' + \
+                    orts + ' Орц, ' + davhar + ' Давхар, ' + toot + ' Тоот, Орцны код: ' + \
+                    code + ' Нэмэлт: ' + nemelt + ' дугаар: ' + contact
                 if is_valid_form([duureg, khoroo_khotkhon, bair, orts, davhar, toot, contact]):
                     shipping_address = Address(
                         user=self.request.user,
@@ -175,6 +179,7 @@ class CheckoutView(View):
                     order.contact = contact
                     order.delivery_fee = delivery
                     order.ordered = True
+                    order.address_detail = address_detail
                     order.save()
                     # set_default_shipping = form.cleaned_data.get(
                     #     'set_default_shipping')
@@ -273,7 +278,7 @@ class CheckoutView(View):
 class PaymentView(View):
     def get(self, *args, **kwargs):
         try:
-            Order.objects.latest('start_date')
+            # Order.objects.latest('start_date')
             order = Order.objects.latest('start_date')
             # user=self.request.user)
             # if order.billing_address:
@@ -436,13 +441,13 @@ class ItemDetailView(DetailView):
     template_name = "product.html"
 
 
-@login_required
+@ login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered=False
+        ordered=False,
     )
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
@@ -460,13 +465,13 @@ def add_to_cart(request, slug):
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(
-            user=request.user, ordered_date=ordered_date)
+            user=request.user, ordered_date=ordered_date, uuid=uuid.uuid4().hex[:6].upper())
         order.items.add(order_item)
         messages.info(request, "Энэ барааг таны сагсанд оруулсан.")
         return redirect("core:order-summary")
 
 
-@login_required
+@ login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
@@ -494,7 +499,7 @@ def remove_from_cart(request, slug):
         return redirect("core:product", slug=slug)
 
 
-@login_required
+@ login_required
 def remove_single_item_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(

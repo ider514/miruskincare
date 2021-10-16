@@ -10,25 +10,36 @@ def make_refund_accepted(modeladmin, request, queryset):
 make_refund_accepted.short_description = 'Update orders to refund granted'
 
 
+# @admin.action(description='Payment received')
+# def payment_received(modeladmin, request, queryset):
+#     queryset.update(payment_received=True)
+
+def payment_received(modeladmin, request, queryset):
+    queryset.update(payment_received=True)
+
+
 class OrderAdmin(admin.ModelAdmin):
+    actions = [payment_received]
     list_display = ['user',
                     'ordered',
                     'payment_received',
-                    'being_delivered',
-                    'received',
+                    # 'being_delivered',
+                    # 'received',
                     # 'refund_requested',
                     # 'refund_granted',
-                    'shipping_address',
-                    'coupon',
+                    # 'shipping_address',
+                    # 'shipping_address_detail',
+                    # 'coupon',
                     'delivery_fee',
-                    'get_total'
+                    'get_total',
+                    'uuid'
                     ]
     list_display_links = [
         'user',
-        'shipping_address',
+        # 'shipping_address',
         # 'billing_address',
         # 'payment',
-        'coupon'
+        # 'coupon'
     ]
     list_filter = ['ordered',
                    'being_delivered',
