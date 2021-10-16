@@ -1,9 +1,15 @@
+from core.forms import DELIVERY
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
+import uuid
+
+
+DELIVERY_A = 4000
+DELIVERY_B = 5500
 
 
 CATEGORY_CHOICES = (
@@ -108,6 +114,7 @@ class OrderItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
+    uuid = models.CharField(unique=True, max_length=6)
     ref_code = models.CharField(max_length=20, blank=True, null=True)
     items = models.ManyToManyField(OrderItem)
     delivery_fee = models.CharField(max_length=5, blank=True, null=True)
@@ -118,6 +125,7 @@ class Order(models.Model):
     contact = models.IntegerField(blank=True, null=True)
     shipping_address = models.ForeignKey(
         'Address', related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
+    address_detail = models.CharField(max_length=200)
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     being_delivered = models.BooleanField(default=False)
@@ -145,7 +153,20 @@ class Order(models.Model):
             total += order_item.get_final_price()
         if self.coupon:
             total -= self.coupon.amount
-        return total
+        if self.delivery_fee == "a":
+            return total + DELIVERY_A
+        elif self.delivery_fee == "b":
+            return total + DELIVERY_B
+        else:
+            return total
+
+    def get_delivery_fee(self):
+        if self.delivery_fee == "a":
+            return DELIVERY_A
+        elif self.delivery_fee == "b":
+            return DELIVERY_B
+        else:
+            return None
 
 
 class Address(models.Model):
@@ -159,6 +180,9 @@ class Address(models.Model):
     toot = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     nemelt = models.CharField(max_length=150)
+
+    def get_string(self):
+        return (self.duureg + self.khoroo_khotkhon)
 
     def __str__(self):
         return self.user.username

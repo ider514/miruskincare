@@ -62,9 +62,6 @@ class MiruskincareLoginForm(LoginForm):
 
 class MiruskincareSignupForm(SignupForm):
 
-    # Specify a choice field that matches the choice field on our user model
-    # type = d_forms.ChoiceField(choices=[("SPY", "Spy"), ("DRIVER", "Driver")])
-
     # Override the init method
     def __init__(self, *args, **kwargs):
         # Call the init of the parent class

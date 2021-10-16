@@ -23,8 +23,15 @@
             <span class="text-success">-₮{{ order.coupon.amount|intcomma }}</span>
         </li>
         {% endif %}
+        {% if order.get_delivery_fee != None %}
         <li class="list-group-item d-flex justify-content-between">
-            <span>Нийт (₮)</span>
+            <span>Хүргэлт</span>
+            <span class="text-muted">₮{{ order.get_delivery_fee|intcomma }}</span>
+            <!-- <strong>₮{{ order.get_delivery_fee|intcomma }}</strong> -->
+        </li>
+        {% endif %}
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Нийт (хүргэлтийн үнэ нэмэгдэнэ)</span>
             <strong>₮{{ order.get_total|intcomma }}</strong>
         </li>
     </ul>
