@@ -16,7 +16,6 @@ ALLOWED_HOSTS = ['ip-address', 'miruskincare.com', 'miruskincare.mn',
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db_name',
         'NAME': '/opt/bitnami/projects/miruskincare/db_name',
         'USER': 'db_user',
         'PASSWORD': '123',
