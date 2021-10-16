@@ -41,11 +41,14 @@ class MiruskincareLoginForm(LoginForm):
         # Call the init of the parent class
         super().__init__(*args, **kwargs)
         login_widget = d_forms.TextInput(
-            attrs={"placeholder": _("Утасны дугаар"),
-                   "autocomplete": "Утасны дугаар"}
+            # attrs={"placeholder": _("Утасны дугаар"),
+            #        "autocomplete": "Утасны дугаар"}
+            attrs={"placeholder": _("Email"),
+                   "autocomplete": ""}
         )
         login_field = d_forms.CharField(
-            label=_("Утасны дугаар"),
+            # label=_("Утасны дугаар"),
+            label=_("Email"),
             widget=login_widget,
             max_length=8,
         )
