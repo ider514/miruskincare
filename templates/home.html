@@ -62,43 +62,44 @@
     <!--/.Navbar-->
 
     <!--/.Carousel-->
-
-    <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
-      style="margin-bottom:20px; margin-top: 0;">
-      <!-- <div class="carousel-indicators">
+    <div id="myCarouselOuter">
+      <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
+        style="margin-bottom:20px; margin-top: 0; height: 300px;">
+        <!-- <div class="carousel-indicators">
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
           aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div> -->
-      <div class="carousel-inner">
-        {% for carousel in carousel %}
-        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}"
-          style="background-image: url({{ carousel.image.url }});">
-          <!-- <img src="{{ carousel.image.url }}" alt="Responsive image" focusable="false"> -->
-          <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>{{ carousel.title }}</h1>
-              <p>{{ carousel.description }}</p>
-              {% if carousel.button != "" %}
-              <p><a class="btn btn-lg btn-primary" style="background-color: #080705!important;" href="#">
-                  {{ carousel.button }}</a>
-              </p>
-              {% endif %}
+        <div class="carousel-inner">
+          {% for carousel in carousel %}
+          <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}"
+            style="background-image: url({{ carousel.image.url }});">
+            <!-- <img src="{{ carousel.image.url }}" alt="Responsive image" focusable="false"> -->
+            <div class="container">
+              <div class="carousel-caption text-start">
+                <h1>{{ carousel.title }}</h1>
+                <p>{{ carousel.description }}</p>
+                {% if carousel.button != "" %}
+                <p><a class="btn btn-lg btn-primary" style="background-color: #080705!important;" href="#">
+                    {{ carousel.button }}</a>
+                </p>
+                {% endif %}
+              </div>
             </div>
-          </div>
 
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
-      <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
     </div>
 
     <!--/.Carousel-->
