@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'core',
 
-    'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
