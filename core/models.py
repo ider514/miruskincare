@@ -114,7 +114,7 @@ class OrderItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    uuid = models.CharField(unique=True, max_length=6)
+    uuid = models.CharField(unique=True, max_length=6, null=True)
     ref_code = models.CharField(max_length=20, blank=True, null=True)
     items = models.ManyToManyField(OrderItem)
     delivery_fee = models.CharField(max_length=5, blank=True, null=True)
