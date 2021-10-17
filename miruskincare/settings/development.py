@@ -45,5 +45,12 @@ DATABASES = {
     }
 }
 
+AUTH_PASSWORD_VALIDATORS = [
+            {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+                        'OPTIONS': {
+                                        'min_length': 3,
+                                                }},
+                        ]
+
 STRIPE_PUBLIC_KEY = 'STRIPE_TEST_PUBLIC_KEY'
 STRIPE_SECRET_KEY = 'STRIPE_TEST_SECRET_KEY'
