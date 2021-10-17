@@ -144,6 +144,14 @@ class Order(models.Model):
     6. Refunds
     '''
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # This code only happens if the objects is
+            # not in the database yet. Otherwise it would
+            # have pk
+            self.uuid = uuid.uuid4().hex[:6].upper()
+        super(Order, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.user.username
 
