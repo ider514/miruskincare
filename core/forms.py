@@ -50,7 +50,7 @@ class MiruskincareLoginForm(LoginForm):
             # label=_("Утасны дугаар"),
             label=_("Email"),
             widget=login_widget,
-            max_length=8,
+            max_length=200,
         )
         self.fields["login"] = login_field
 
