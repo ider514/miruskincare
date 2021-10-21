@@ -102,7 +102,7 @@ class CheckoutView(View):
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "Танд идэвхтэй захиалга байхгүй байна")
-            return redirect("core:checkout")
+            return redirect("core:order-summary")
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
