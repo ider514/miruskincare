@@ -1,3 +1,4 @@
+from django.db.models.expressions import F
 from core.forms import DELIVERY
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -59,6 +60,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
+    stock_amount = models.IntegerField(null=False)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
     slug = models.SlugField()
@@ -84,6 +86,11 @@ class Item(models.Model):
         return reverse("core:remove-from-cart", kwargs={
             'slug': self.slug
         })
+
+    def order_item(self):
+        self.stock_amount = self.stock_amount - 1
+        print("new stock" + str(self.stock_amount))
+        self.save()
 
 
 class OrderItem(models.Model):
@@ -154,6 +161,9 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_items(self):
+        return self.items
 
     def get_total(self):
         total = 0

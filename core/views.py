@@ -80,13 +80,6 @@ class NewView(ListView):
         return context
 
 
-# def home(request):
-#     carousel = Carousel.objects.all()
-#     item = Item.objects.all()
-#     context = {'carousel': carousel, 'item': item}
-#     return render(request, "home.html", context)
-
-
 class CheckoutView(View):
     def get(self, *args, **kwargs):
         try:
@@ -191,6 +184,10 @@ class CheckoutView(View):
                     messages.info(
                         self.request, "Хаяг дугаараа гүйцэд зөв оруулна уу")
 
+                # remove ordered items from stock
+                for order_item in order.items.all():
+                    order_item.item.order_item()
+                    print(order_item.item)
                 return redirect('core:payment')
                 # use_default_billing = form.cleaned_data.get(
                 #     'use_default_billing')
@@ -444,6 +441,9 @@ class ItemDetailView(DetailView):
 @ login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
+    if (item.stock_amount < 1):
+        messages.warning(request, "Бүтээгдэxүүний үлдэгдэл дуссан байна.")
+        return redirect("core:product", slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
