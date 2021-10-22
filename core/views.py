@@ -275,11 +275,13 @@ class CheckoutView(View):
                 #     return redirect('core:checkout')
             else:
                 messages.warning(
-                    self.request, "Хаяг дугаараа гүйцэд зөв оруулна уу")
+                    # self.request,
+                    "Хаяг дугаараа гүйцэд зөв оруулна уу")
                 return redirect('core:checkout')
         except ObjectDoesNotExist:
             messages.warning(
-                self.request, "Танд идэвхтэй захиалга байхгүй байна")
+                # self.request,
+                "Танд идэвхтэй захиалга байхгүй байна")
             return redirect("core:order-summary")
 
 
