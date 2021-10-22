@@ -18,6 +18,8 @@ from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, Us
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
 
+from django.core.mail import send_mail
+
 
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
@@ -128,7 +130,6 @@ class CheckoutView(View):
                 #             self.request, "No default shipping address available")
                 #         return redirect('core:checkout')
                 # else:
-                print("User is entering a new shipping address")
                 duureg = form.cleaned_data.get(
                     'duureg')
                 khoroo_khotkhon = form.cleaned_data.get(
@@ -184,10 +185,20 @@ class CheckoutView(View):
                     messages.info(
                         self.request, "Хаяг дугаараа гүйцэд зөв оруулна уу")
 
-                # remove ordered items from stock
+                # sending notification email
+                subject = f'New Order: {order.uuid}, ₮{order.get_total()}'
+                message = (f'Customer: {self.request.user.username} \n'
+                           f'UUID:  {order.uuid}\nProducts: \n')
+                # remove ordered items from stock and add to email
                 for order_item in order.items.all():
                     order_item.item.order_item()
-                    print(order_item.item)
+                    message += f"{order_item.item} \n"
+                message += f"Address: {address_detail} \n"
+
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = ['mirusskincare.mn@gmail.com']
+                send_mail(subject, message, email_from, recipient_list)
+
                 return redirect('core:payment')
                 # use_default_billing = form.cleaned_data.get(
                 #     'use_default_billing')
@@ -279,12 +290,12 @@ class PaymentView(View):
             order = Order.objects.latest('start_date')
             # user=self.request.user)
             # if order.billing_address:
-            order_item = OrderItem.objects.get(
-                user=self.request.user, ordered=False)
+            # order_item = OrderItem.objects.get(
+            #     user=self.request.user, ordered=False)
             context = {
                 'order': order,
                 'DISPLAY_COUPON_FORM': False,
-                'order_item': order_item,
+                # 'order_item': order_item,
             }
             #     userprofile = self.request.user.userprofile
             #     if userprofile.one_click_purchasing:
