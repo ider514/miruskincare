@@ -89,7 +89,6 @@ class Item(models.Model):
 
     def order_item(self):
         self.stock_amount = self.stock_amount - 1
-        print("new stock" + str(self.stock_amount))
         self.save()
 
 
