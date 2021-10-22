@@ -54,6 +54,12 @@ class OrderAdmin(admin.ModelAdmin):
     # actions = [make_refund_accepted]
 
 
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ['title',
+                    'stock_amount'
+                    ]
+
+
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
         'user',
@@ -70,7 +76,7 @@ class AddressAdmin(admin.ModelAdmin):
     search_fields = ['user', 'duureg', 'khoroo_khotkhon']
 
 
-admin.site.register(Item)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment)
