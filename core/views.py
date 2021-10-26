@@ -192,7 +192,7 @@ class CheckoutView(View):
                 # remove ordered items from stock and add to email
                 for order_item in order.items.all():
                     order_item.item.order_item()
-                    message += f"{order_item.item} \n"
+                    message += f"{order_item.quantity } x {order_item.item} \n"
                 message += f"Address: {address_detail} \n"
 
                 email_from = settings.EMAIL_HOST_USER
