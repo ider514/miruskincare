@@ -23,7 +23,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ['user',
                     'ordered',
                     'payment_received',
-                    # 'being_delivered',
+                    'ordered_date',
                     # 'received',
                     # 'refund_requested',
                     # 'refund_granted',
